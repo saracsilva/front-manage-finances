@@ -8,12 +8,11 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const API_URL = "http://localhost:5005";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/auth/signup`, {
+      const response = await fetch(`http://localhost:5005/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
