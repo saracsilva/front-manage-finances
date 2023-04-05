@@ -7,7 +7,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const { storeToken } = useContext(SessionContext);
+  const { storeToken, authenticateUser } = useContext(SessionContext);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -22,7 +22,10 @@ function Login() {
       const parsed = await response.json();
       await console.log("JWT token", parsed.authToken);
       storeToken(parsed.authToken);
+      authenticateUser();
+      navigate(`/`);
       if (parsed.status === 201) {
+        authenticateUser();
         navigate(`/`);
       } else {
         setErrorMessage(parsed.message);
