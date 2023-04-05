@@ -49,6 +49,7 @@ const SessionProvider = ({ children }) => {
     removeToken();
     // and update the state variables
     authenticateUser();
+    navigate(`/`);
   };
   useEffect(() => {
     authenticateUser(); //  <==  ADD

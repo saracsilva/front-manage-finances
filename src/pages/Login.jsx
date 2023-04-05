@@ -23,10 +23,10 @@ function Login() {
       await console.log("JWT token", parsed.authToken);
       storeToken(parsed.authToken);
       authenticateUser();
-      navigate(`/`);
+      navigate(`/dashboard`);
       if (parsed.status === 201) {
         authenticateUser();
-        navigate(`/`);
+        navigate(`/dashboard`);
       } else {
         setErrorMessage(parsed.message);
       }
