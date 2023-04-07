@@ -7,17 +7,17 @@ const SessionProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+
   const navigate = useNavigate();
-  console.log(localStorage, "testando");
+
   const storeToken = (token) => {
-    console.log(token, "data");
     localStorage.setItem("authToken", token);
-    /* localStorage.setItem("date", data.date); */
   };
 
   const authenticateUser = async () => {
     // Get the stored token from the localStorage
     const storedToken = localStorage.getItem("authToken");
+
     // If the token exists in the localStorage
     if (storedToken) {
       // We must send the JWT token in the request's "Authorization" Headers
@@ -26,7 +26,12 @@ const SessionProvider = ({ children }) => {
           Authorization: `Bearer ${storedToken}`,
         },
       });
-
+      if (response.status === 401) {
+        // Token has expired, log the user out
+        logOutUser();
+        navigate("/");
+        return;
+      }
       const parsed = await response.json();
 
       setIsLoggedIn(true);
@@ -42,6 +47,7 @@ const SessionProvider = ({ children }) => {
     // <== ADD
     // Upon logout, remove the token from the localStorage
     localStorage.removeItem("authToken");
+    localStorage.removeItem("date");
   };
 
   const logOutUser = () => {
@@ -52,9 +58,10 @@ const SessionProvider = ({ children }) => {
     authenticateUser();
     navigate(`/`);
   };
-
+  console.log(localStorage);
   useEffect(() => {
     authenticateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <SessionContext.Provider
@@ -63,6 +70,7 @@ const SessionProvider = ({ children }) => {
         isLoading,
         user,
         storeToken,
+
         authenticateUser,
         logOutUser,
       }}
