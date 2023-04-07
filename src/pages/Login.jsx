@@ -20,7 +20,7 @@ function Login() {
         body: JSON.stringify({ email, password }),
       });
       const parsed = await response.json();
-      await console.log("JWT token", parsed.authToken);
+
       storeToken(parsed.authToken);
       authenticateUser();
       navigate(`/dashboard`);

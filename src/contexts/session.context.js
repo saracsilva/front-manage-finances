@@ -6,11 +6,13 @@ const SessionContext = createContext();
 const SessionProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
+  console.log(localStorage, "testando");
   const storeToken = (token) => {
+    console.log(token, "data");
     localStorage.setItem("authToken", token);
+    /* localStorage.setItem("date", data.date); */
   };
 
   const authenticateUser = async () => {
@@ -26,7 +28,6 @@ const SessionProvider = ({ children }) => {
       });
 
       const parsed = await response.json();
-      console.log(parsed, "test");
 
       setIsLoggedIn(true);
       setIsLoading(false);
@@ -51,8 +52,9 @@ const SessionProvider = ({ children }) => {
     authenticateUser();
     navigate(`/`);
   };
+
   useEffect(() => {
-    authenticateUser(); //  <==  ADD
+    authenticateUser();
   }, []);
   return (
     <SessionContext.Provider

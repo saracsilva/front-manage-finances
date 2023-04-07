@@ -8,7 +8,7 @@ import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
 function App() {
   return (
-    <div className="App">
+    <div className="App  h-[100vh]">
       <Navbar />
 
       <Routes>
@@ -19,7 +19,7 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <Dashboard className="h-[100vh]" />
             </PrivateRoute>
           }
         />
